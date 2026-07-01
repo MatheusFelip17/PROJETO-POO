@@ -1,8 +1,8 @@
 from tkinter import ttk
 
 
-COR_FUNDO = "#8f4e2e"
-COR_TEXTO = "#1f2937"
+COR_FUNDO = "#c57d56"
+COR_TEXTO = "#ffffff"
 COR_DESTAQUE = "#2563eb"
 COR_AREA = "#ffffff"
 FONTE_TITULO = ("Segoe UI", 18, "bold")
