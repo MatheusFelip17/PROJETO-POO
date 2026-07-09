@@ -1,5 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
+from cadastro_produtos import abrir_cadastro_produto
+from cadastro_tabela import abrir_tabela
+from cadastro_fornecedores import abrir_fornecedores
+from cadastro_clientes import abrir_cliente
+from cadastro_de_nova_venda import abrir_nova_venda
 
 def abrir():
     janela = tk.Tk()
@@ -83,6 +88,23 @@ def abrir():
         show="headings"
     )
 
+    botao_aba1 = tk.Button(
+    aba1,
+    text="Cadastrar Produto",
+    font=("Arial", 12),
+    fg="#1E293B",
+    bg="#E2E8F0",
+    activeforeground="#49628c",
+    activebackground="#f0f6fc",
+    relief="flat",
+    padx=20,
+    pady=10,
+    cursor="hand2",
+    command=abrir_cadastro_produto
+)
+    
+    botao_aba1.pack(pady=20)
+
     tabela1.heading("codigo", text="Código")
     tabela1.heading("nome", text="Descrição")
     tabela1.heading("quantidade", text="Quantidade")
@@ -113,6 +135,22 @@ def abrir():
         show="headings"
     )
 
+    botao_aba2 = tk.Button(
+    aba2,
+    text="Cadastrar Produto",
+    font=("Arial", 12),
+    fg="#1E293B",
+    bg="#E2E8F0",
+    activeforeground="#49628c",
+    activebackground="#f0f6fc",
+    relief="flat",
+    padx=20,
+    pady=10,
+    cursor="hand2",
+    command=abrir_tabela
+)
+    botao_aba2.pack(pady=20)
+
     tabela2.heading("codigo", text="Código")
     tabela2.heading("nome", text="Descrição")
     tabela2.heading("preco", text="Preço(R$)")
@@ -130,43 +168,136 @@ def abrir():
 
     tabela2.pack(expand=True, fill="both", padx=20, pady=20)
 
-    abas_info = [
-        (aba3, "Fornecedores", ("Código", "Fornecedor", "Telefone"),
-         [("F001", "Auto Peças Brasil", "(11) 99999-1111"),
-          ("F002", "Peças Premium", "(21) 98888-2222")]),
+    titulo3 = tk.Label(
+        aba3,
+        text="Fornecedores",
+        font=("Arial", 18, "bold"),
+        bg="#1E293B",
+        fg="#E2E8F0"
+    )
+    titulo3.pack(pady=15)
 
-        (aba4, "Clientes", ("Código", "Cliente", "Cidade"),
-         [("C001", "João Silva", "Natal"),
-          ("C002", "Maria Souza", "Parnamirim")]),
+    tabela3 = ttk.Treeview(
+        aba3,
+        columns=("codigo", "fornecedores", "telefone"),
+        show="headings"
+    )
 
-        (aba5, "Vendas", ("Venda", "Cliente", "Valor(R$)"),
-         [("0001", "João Silva", "199.90"),
-          ("0002", "Maria Souza", "359.80")])
-    ]
+    botao_aba3 = tk.Button(
+    aba3,
+    text="Cadastrar Fornecedor",
+    font=("Arial", 12),
+    fg="#1E293B",
+    bg="#E2E8F0",
+    activeforeground="#49628c",
+    activebackground="#f0f6fc",
+    relief="flat",
+    padx=20,
+    pady=10,
+    cursor="hand2",
+    command=abrir_fornecedores
+)
+    botao_aba3.pack(pady=20)
 
-    for aba, titulo, colunas, dados in abas_info:
-        label = tk.Label(
-            aba,
-            text=titulo,
-            font=("Arial", 18, "bold"),
-            bg="#1E293B",
-            fg="#E2E8F0"
-        )
-        label.pack(pady=15)
+    tabela3.heading("codigo", text="Código")
+    tabela3.heading("fornecedores", text="Fornecedores")
+    tabela3.heading("telefone", text="telefone")
 
-        tabela = ttk.Treeview(
-            aba,
-            columns=colunas,
-            show="headings"
-        )
+    tabela3.column("codigo", width=80, anchor="center")
+    tabela3.column("fornecedores", width=300, anchor="center")
+    tabela3.column("telefone", width=120, anchor="center")
 
-        for coluna in colunas:
-            tabela.heading(coluna, text=coluna)
-            tabela.column(coluna, width=200, anchor="center")
+    tabela3.insert("", tk.END, values=("F001", "Auto Peças Brasil", "(11)99999-1111"))
+    tabela3.insert("", tk.END, values=("F002", "Pastilha de freio dianteira", "(21)98888-1111"))
 
-        for item in dados:
-            tabela.insert("", tk.END, values=item)
+    tabela3.pack(expand=True, fill="both", padx=20, pady=20)
 
-        tabela.pack(expand=True, fill="both", padx=20, pady=20)
+    titulo4 = tk.Label(
+        aba4,
+        text="Clientes",
+        font=("Arial", 18, "bold"),
+        bg="#1E293B",
+        fg="#E2E8F0"
+    )
+    titulo4.pack(pady=15)
+
+    tabela4 = ttk.Treeview(
+        aba4,
+        columns=("codigo", "cliente", "cpf"),
+        show="headings"
+    )
+
+    botao_aba4 = tk.Button(
+    aba4,
+    text="Cadastrar Cliente",
+    font=("Arial", 12),
+    fg="#1E293B",
+    bg="#E2E8F0",
+    activeforeground="#49628c",
+    activebackground="#f0f6fc",
+    relief="flat",
+    padx=20,
+    pady=10,
+    cursor="hand2",
+    command=abrir_cliente
+)
+    botao_aba4.pack(pady=20)
+
+    tabela4.heading("codigo", text="Código")
+    tabela4.heading("cliente", text="Clientes")
+    tabela4.heading("cpf", text="CPF")
+
+    tabela4.column("codigo", width=80, anchor="center")
+    tabela4.column("cliente", width=300, anchor="center")
+    tabela4.column("cpf", width=120, anchor="center")
+
+    tabela4.insert("", tk.END, values=("C001", "João Silva", "327.564.908-11"))
+    tabela4.insert("", tk.END, values=("C002", "Maria Souza", "123.667.432-69"))
+
+    tabela4.pack(expand=True, fill="both", padx=20, pady=20)
+
+    titulo5 = tk.Label(
+        aba5,
+        text="Vendas",
+        font=("Arial", 18, "bold"),
+        bg="#1E293B",
+        fg="#E2E8F0"
+    )
+    titulo5.pack(pady=15)
+
+    tabela5 = ttk.Treeview(
+        aba5,
+        columns=("venda", "cliente", "valor"),
+        show="headings"
+    )
+
+    botao_aba5 = tk.Button(
+    aba5,
+    text="Cadastrar Nova Venda",
+    font=("Arial", 12),
+    fg="#1E293B",
+    bg="#E2E8F0",
+    activeforeground="#49628c",
+    activebackground="#f0f6fc",
+    relief="flat",
+    padx=20,
+    pady=10,
+    cursor="hand2",
+    command=abrir_nova_venda
+)
+    botao_aba5.pack(pady=20)
+
+    tabela5.heading("venda", text="Vendas")
+    tabela5.heading("cliente", text="Clientes")
+    tabela5.heading("valor", text="Valor(R$)")
+
+    tabela5.column("venda", width=80, anchor="center")
+    tabela5.column("cliente", width=300, anchor="center")
+    tabela5.column("valor", width=120, anchor="center")
+
+    tabela5.insert("", tk.END, values=("V001", "João Silva", "199.90"))
+    tabela5.insert("", tk.END, values=("V002", "Maria Souza", "359.80"))
+
+    tabela5.pack(expand=True, fill="both", padx=20, pady=20)
 
     janela.mainloop()
