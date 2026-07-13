@@ -4,7 +4,10 @@ import json
 import os
 
 arquivo = "cadastro_fornecedores.json"
-
+def abrir_sistema():
+    from sistema import abrir
+    janela.destroy()
+    abrir()
 
 def salvar_fornecedor():
     codigo = txt_codigo.get()
@@ -47,7 +50,6 @@ def salvar_fornecedor():
     txt_email.delete(0, tk.END)
     txt_categoria.current(0)
 
-
 def abrir_fornecedores():
     global txt_codigo
     global txt_empresa
@@ -55,10 +57,11 @@ def abrir_fornecedores():
     global txt_telefone
     global txt_email
     global txt_categoria
+    global janela
 
     janela = tk.Tk()
     janela.title("Cadastro de Fornecedores")
-    janela.geometry("500x600")
+    janela.geometry("1600x1600")
     janela.configure(bg="#1E293B")
 
     titulo = tk.Label(
@@ -70,27 +73,62 @@ def abrir_fornecedores():
     )
     titulo.pack(pady=15)
 
-    tk.Label(janela, text="Código", bg="#1E293B", fg="#E2E8F0").pack()
+    tk.Label(
+        janela,
+        text="Código",
+        bg="#1E293B",
+        fg="#E2E8F0"
+    ).pack()
+
     txt_codigo = tk.Entry(janela, width=40)
     txt_codigo.pack(pady=5)
 
-    tk.Label(janela, text="Empresa", bg="#1E293B", fg="#E2E8F0").pack()
+    tk.Label(
+        janela,
+        text="Empresa",
+        bg="#1E293B",
+        fg="#E2E8F0"
+    ).pack()
+
     txt_empresa = tk.Entry(janela, width=40)
     txt_empresa.pack(pady=5)
 
-    tk.Label(janela, text="Contato", bg="#1E293B", fg="#E2E8F0").pack()
+    tk.Label(
+        janela,
+        text="Contato",
+        bg="#1E293B",
+        fg="#E2E8F0"
+    ).pack()
+
     txt_contato = tk.Entry(janela, width=40)
     txt_contato.pack(pady=5)
 
-    tk.Label(janela, text="Telefone", bg="#1E293B", fg="#E2E8F0").pack()
+    tk.Label(
+        janela,
+        text="Telefone",
+        bg="#1E293B",
+        fg="#E2E8F0"
+    ).pack()
+
     txt_telefone = tk.Entry(janela, width=40)
     txt_telefone.pack(pady=5)
 
-    tk.Label(janela, text="E-mail", bg="#1E293B", fg="#E2E8F0").pack()
+    tk.Label(
+        janela,
+        text="E-mail",
+        bg="#1E293B",
+        fg="#E2E8F0"
+    ).pack()
+
     txt_email = tk.Entry(janela, width=40)
     txt_email.pack(pady=5)
 
-    tk.Label(janela, text="Categoria", bg="#1E293B", fg="#E2E8F0").pack()
+    tk.Label(
+        janela,
+        text="Categoria",
+        bg="#1E293B",
+        fg="#E2E8F0"
+    ).pack()
 
     categorias = [
         "Peças Automotivas",
@@ -114,7 +152,8 @@ def abrir_fornecedores():
     txt_categoria.pack(pady=5)
     txt_categoria.current(0)
 
-    botao = tk.Button(
+    # Botão Cadastrar
+    btn_cadastrar = tk.Button(
         janela,
         text="Cadastrar Fornecedor",
         command=salvar_fornecedor,
@@ -128,6 +167,23 @@ def abrir_fornecedores():
         pady=10,
         cursor="hand2"
     )
-    botao.pack(pady=20)
+    btn_cadastrar.pack(pady=10)
+
+    # Botão Voltar
+    btn_voltar = tk.Button(
+        janela,
+        text="Voltar",
+        command=abrir_sistema,
+        font=("Arial", 11, "bold"),
+        fg="#1E293B",
+        bg="#E2E8F0",
+        activeforeground="#49628c",
+        activebackground="#f0f6fc",
+        relief="flat",
+        padx=20,
+        pady=10,
+        cursor="hand2"
+    )
+    btn_voltar.pack(pady=10)
 
     janela.mainloop()

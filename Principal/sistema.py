@@ -5,10 +5,24 @@ from cadastro_fornecedores import abrir_fornecedores
 import json
 import os
 
+def abrir_entrada():
+    from entrada import abrir_entrada
+    janela.destroy()
+    abrir_entrada()
+
+def abrir_produtos():
+    janela.destroy()
+    abrir_cadastro_produto()
+
+def abrir_fornecedores_sistema():
+    janela.destroy()
+    abrir_fornecedores()
+
 def abrir():
+    global janela
     janela = tk.Tk()
     janela.title("Mecânica do Zé")
-    janela.geometry("980x680")
+    janela.geometry("1600x1600")
     janela.minsize(820, 560)
     janela.configure(bg="#1E293B")
 
@@ -99,7 +113,7 @@ def abrir():
     padx=20,
     pady=10,
     cursor="hand2",
-    command=abrir_cadastro_produto
+    command=abrir_produtos
     
 )
     
@@ -212,7 +226,7 @@ def abrir():
     padx=20,
     pady=10,
     cursor="hand2",
-    command=abrir_fornecedores
+    command=abrir_fornecedores_sistema
 )
     botao_aba3.pack(pady=20)
 
@@ -268,17 +282,17 @@ def abrir():
 
     tabela4 = ttk.Treeview(
         aba4,
-        columns=("codigo", "cliente", "cpf"),
+        columns=("codigo", "cliente", "data"),
         show="headings"
     )
 
     tabela4.heading("codigo", text="Código")
     tabela4.heading("cliente", text="Cliente")
-    tabela4.heading("cpf", text="CPF")
+    tabela4.heading("data", text="Data")
 
     tabela4.column("codigo", width=100, anchor="center")
     tabela4.column("cliente", width=250, anchor="center")
-    tabela4.column("cpf", width=180, anchor="center")
+    tabela4.column("data", width=180, anchor="center")
 
     arquivo = "cadastro_vendas.json"
 
@@ -288,13 +302,13 @@ def abrir():
                 vendas = json.load(f)
 
             for venda in vendas:
-                tabela5.insert(
+                tabela4.insert(
                     "",
                     tk.END,
                     values=(
                         venda.get("codigo", ""),
                         venda.get("cliente", ""),
-                        venda.get("cpf", "")
+                        venda.get("data", "")
                     )
                 )
         except:
@@ -313,18 +327,18 @@ def abrir():
 
     tabela5 = ttk.Treeview(
         aba5,
-        columns=("codigo", "cliente", "cpf", "valor"),
+        columns=("codigo", "cliente", "data", "valor"),
         show="headings"
     )
 
     tabela5.heading("codigo", text="Código")
     tabela5.heading("cliente", text="Cliente")
-    tabela5.heading("cpf", text="CPF")
+    tabela5.heading("data", text="Data")
     tabela5.heading("valor", text="Valor (R$)")
 
     tabela5.column("codigo", width=100, anchor="center")
     tabela5.column("cliente", width=250, anchor="center")
-    tabela5.column("cpf", width=180, anchor="center")
+    tabela5.column("data", width=180, anchor="center")
     tabela5.column("valor", width=120, anchor="center")
 
     arquivo = "cadastro_vendas.json"
@@ -341,7 +355,7 @@ def abrir():
                     values=(
                         venda.get("codigo", ""),
                         venda.get("cliente", ""),
-                        venda.get("cpf", ""),
+                        venda.get("data", ""),
                         venda.get("valor", "")
                     )
                 )
@@ -349,5 +363,21 @@ def abrir():
             pass
 
     tabela5.pack(expand=True, fill="both", padx=20, pady=20)
+
+    botao = tk.Button(
+        janela,
+        text="Voltar",
+        font=("Arial", 12, "bold"),
+        fg="#1E293B",
+        bg="#E2E8F0",
+        activeforeground="#49628c",
+        activebackground="#f0f6fc",
+        relief="flat",
+        padx=20,
+        pady=10,
+        cursor="hand2",
+        command=abrir_entrada
+    )
+    botao.pack(pady=20)
 
     janela.mainloop()

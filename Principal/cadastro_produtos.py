@@ -63,7 +63,7 @@ def abrir_cadastro_produto():
 
     janela = tk.Tk()
     janela.title("Cadastro de Produtos")
-    janela.geometry("500x600")
+    janela.geometry("1600x1600")
     janela.configure(bg="#1E293B")
 
     titulo = tk.Label(

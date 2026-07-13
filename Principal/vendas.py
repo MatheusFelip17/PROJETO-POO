@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 import json
 import os
+from datetime import datetime
 
 arquivo_vendas = "cadastro_vendas.json"
 arquivo_produtos = "cadastro_produtos.json"
@@ -9,6 +10,10 @@ arquivo_produtos = "cadastro_produtos.json"
 produtos = []
 itens_venda = []
 
+def abrir_entrada():
+    from entrada import abrir_entrada
+    janela.destroy()
+    abrir_entrada()
 
 def atualizar_lista_venda():
     lista_venda.delete(0, tk.END)
@@ -48,6 +53,21 @@ def adicionar_produto():
     indice = selecao[0]
     produto = produtos[indice]
 
+    estoque = int(produto.get("quantidade", 0))
+
+    quantidade_na_venda = 0
+
+    for item in itens_venda:
+        if item["nome"] == produto["nome"]:
+            quantidade_na_venda += item["quantidade"]
+
+    if quantidade + quantidade_na_venda > estoque:
+        messagebox.showerror(
+            "Estoque insuficiente",
+            f"Há apenas {estoque - quantidade_na_venda} unidade(s) disponível(is)."
+        )
+        return
+    
     preco = float(produto.get("preco", 0))
     subtotal = preco * quantidade
 
@@ -85,16 +105,16 @@ def remover_produto():
 
 def salvar_venda():
     cliente = txt_cliente.get().strip()
-    cpf = txt_cpf.get().strip()
+    
 
     txt_valor.config(state="normal")
     valor = txt_valor.get()
     txt_valor.config(state="readonly")
 
-    if cliente == "" or cpf == "":
+    if cliente == "":
         messagebox.showerror(
             "Erro",
-            "Preencha cliente e CPF."
+            "Preencha cliente."
         )
         return
 
@@ -123,7 +143,7 @@ def salvar_venda():
     venda = {
         "codigo": f"V{codigo:03}",
         "cliente": cliente,
-        "cpf": cpf,
+        "data": datetime.now().strftime("%d/%m/%Y"),
         "produtos": itens_venda.copy(),
         "valor": valor
     }
@@ -141,6 +161,13 @@ def salvar_venda():
             indent=4,
             ensure_ascii=False
         )
+    for item in itens_venda:
+        for produto in produtos:
+            if produto["nome"] == item["nome"]:
+                produto["quantidade"] = int(produto["quantidade"]) - item["quantidade"]
+
+    with open(arquivo_produtos, "w", encoding="utf-8") as f:
+        json.dump(produtos, f, indent=4, ensure_ascii=False)
 
     messagebox.showinfo(
         "Sucesso",
@@ -148,7 +175,7 @@ def salvar_venda():
     )
 
     txt_cliente.delete(0, tk.END)
-    txt_cpf.delete(0, tk.END)
+    
 
     itens_venda.clear()
 
@@ -165,8 +192,8 @@ def salvar_venda():
 
 
 def abrir_nova_venda():
+    global janela
     global txt_cliente
-    global txt_cpf
     global txt_quantidade
     global txt_valor
     global lbl_codigo
@@ -204,7 +231,7 @@ def abrir_nova_venda():
     janela = tk.Tk()
 
     janela.title("Cadastro de Venda")
-    janela.geometry("1000x1000")
+    janela.geometry("1600x1600")
     janela.configure(bg="#1E293B")
 
     titulo = tk.Label(
@@ -239,17 +266,12 @@ def abrir_nova_venda():
     txt_cliente.pack(pady=5)
 
     tk.Label(
-        janela,
-        text="CPF",
-        bg="#1E293B",
-        fg="#E2E8F0"
-    ).pack()
-
-    txt_cpf = tk.Entry(
-        janela,
-        width=40
-    )
-    txt_cpf.pack(pady=5)
+    janela,
+    text=datetime.now().strftime("%d/%m/%Y"),
+    bg="#1E293B",
+    fg="#E2E8F0",
+    font=("Arial", 11)
+    ).pack(pady=5)
 
     tk.Label(
         janela,
@@ -263,7 +285,7 @@ def abrir_nova_venda():
         width=50,
         height=8
     )
-    lista_produtos.pack(pady=5)
+    lista_produtos.pack(pady=1)
 
     for produto in produtos:
         nome = produto.get("nome", "Sem nome")
@@ -286,7 +308,7 @@ def abrir_nova_venda():
         width=10
     )
     txt_quantidade.insert(0, "1")
-    txt_quantidade.pack(pady=5)
+    txt_quantidade.pack(pady=1)
 
     tk.Button(
         janela,
@@ -304,8 +326,8 @@ def abrir_nova_venda():
 
     lista_venda = tk.Listbox(
         janela,
-        width=60,
-        height=10
+        width=24,
+        height=1
     )
     lista_venda.pack(pady=5)
 
@@ -348,7 +370,22 @@ def abrir_nova_venda():
     )
     botao.pack(pady=20)
 
+    botao = tk.Button(
+        janela,
+        text="Voltar",
+        font=("Arial", 12, "bold"),
+        fg="#1E293B",
+        bg="#E2E8F0",
+        activeforeground="#49628c",
+        activebackground="#f0f6fc",
+        relief="flat",
+        padx=20,
+        pady=10,
+        cursor="hand2",
+        command=abrir_entrada 
+    )
+    botao.pack(pady=20)
+
     janela.mainloop()
 
 
-abrir_nova_venda()
