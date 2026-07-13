@@ -57,8 +57,8 @@ def abrir_fornecedores():
     global txt_categoria
 
     janela = tk.Tk()
-    janela.title("Sistema - Cadastro de fornecedores")
-    janela.geometry("980x790")
+    janela.title("Cadastro de Fornecedores")
+    janela.geometry("500x600")
     janela.configure(bg="#1E293B")
 
     titulo = tk.Label(
@@ -129,6 +129,5 @@ def abrir_fornecedores():
         cursor="hand2"
     )
     botao.pack(pady=20)
-
 
     janela.mainloop()

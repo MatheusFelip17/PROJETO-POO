@@ -62,8 +62,8 @@ def abrir_cadastro_produto():
     global janela
 
     janela = tk.Tk()
-    janela.title("Sistema - Cadastro de produto")
-    janela.geometry("980x790")
+    janela.title("Cadastro de Produtos")
+    janela.geometry("500x600")
     janela.configure(bg="#1E293B")
 
     titulo = tk.Label(
@@ -235,6 +235,5 @@ def abrir_cadastro_produto():
         command=abrir_sistema 
     )
     botao.pack(pady=20)
-
 
     janela.mainloop()

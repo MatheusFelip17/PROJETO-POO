@@ -1,10 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 from cadastro_produtos import abrir_cadastro_produto
-from cadastro_tabela import abrir_tabela
 from cadastro_fornecedores import abrir_fornecedores
-from cadastro_clientes import abrir_cliente
-from cadastro_de_nova_venda import abrir_nova_venda
+import json
+import os
 
 def abrir():
     janela = tk.Tk()
@@ -101,6 +100,7 @@ def abrir():
     pady=10,
     cursor="hand2",
     command=abrir_cadastro_produto
+    
 )
     
     botao_aba1.pack(pady=20)
@@ -113,10 +113,27 @@ def abrir():
     tabela1.column("nome", width=300, anchor="center")
     tabela1.column("quantidade", width=120, anchor="center")
 
-    tabela1.insert("", tk.END, values=("001", "Filtro de óleo", 50))
-    tabela1.insert("", tk.END, values=("002", "Pastilha de freio dianteira", 50))
-    tabela1.insert("", tk.END, values=("003", "Amortecedor dianteiro", 50))
-    tabela1.insert("", tk.END, values=("004", "Vela de ignição", 50))
+
+
+    arquivo = "cadastro_produtos.json"
+
+    if os.path.exists(arquivo):
+        try:
+            with open(arquivo, "r", encoding="utf-8") as f:
+                produtos = json.load(f)
+
+            for produto in produtos:
+                tabela1.insert(
+                    "",
+                    tk.END,
+                    values=(
+                        produto.get("codigo",""),
+                        produto.get("nome",""),
+                        produto.get("quantidade","")
+                    )
+                )
+        except:
+            pass
 
     tabela1.pack(expand=True, fill="both", padx=20, pady=20)
 
@@ -135,22 +152,6 @@ def abrir():
         show="headings"
     )
 
-    botao_aba2 = tk.Button(
-    aba2,
-    text="Cadastrar Produto",
-    font=("Arial", 12),
-    fg="#1E293B",
-    bg="#E2E8F0",
-    activeforeground="#49628c",
-    activebackground="#f0f6fc",
-    relief="flat",
-    padx=20,
-    pady=10,
-    cursor="hand2",
-    command=abrir_tabela
-)
-    botao_aba2.pack(pady=20)
-
     tabela2.heading("codigo", text="Código")
     tabela2.heading("nome", text="Descrição")
     tabela2.heading("preco", text="Preço(R$)")
@@ -161,10 +162,26 @@ def abrir():
     tabela2.column("preco", width=120, anchor="center")
     tabela2.column("localizacao", width=150, anchor="center")
 
-    tabela2.insert("", tk.END, values=("001", "Filtro de óleo", "32.50", "Setor A1"))
-    tabela2.insert("", tk.END, values=("002", "Pastilha de freio dianteira", "139.90", "Setor C2"))
-    tabela2.insert("", tk.END, values=("003", "Amortecedor dianteiro", "329.90", "Setor C1"))
-    tabela2.insert("", tk.END, values=("004", "Vela de ignição", "29.90", "Setor C1"))
+    arquivo = "cadastro_produtos.json"
+
+    if os.path.exists(arquivo):
+        try:
+            with open(arquivo, "r", encoding="utf-8") as f:
+                produtos = json.load(f)
+
+            for produto in produtos:
+                tabela2.insert(
+                    "",
+                    tk.END,
+                    values=(
+                        produto.get("codigo",""),
+                        produto.get("nome",""),
+                        produto.get("preco",""),
+                        produto.get("localizacao","")
+                    )
+                )
+        except:
+            pass
 
     tabela2.pack(expand=True, fill="both", padx=20, pady=20)
 
@@ -178,10 +195,10 @@ def abrir():
     titulo3.pack(pady=15)
 
     tabela3 = ttk.Treeview(
-        aba3,
-        columns=("codigo", "fornecedores", "telefone"),
-        show="headings"
-    )
+    aba3,
+    columns=("codigo", "empresa", "contato", "telefone", "email", "categoria"),
+    show="headings"
+)
 
     botao_aba3 = tk.Button(
     aba3,
@@ -200,15 +217,41 @@ def abrir():
     botao_aba3.pack(pady=20)
 
     tabela3.heading("codigo", text="Código")
-    tabela3.heading("fornecedores", text="Fornecedores")
-    tabela3.heading("telefone", text="telefone")
+    tabela3.heading("empresa", text="Empresa")
+    tabela3.heading("contato", text="Contato")
+    tabela3.heading("telefone", text="Telefone")
+    tabela3.heading("email", text="E-mail")
+    tabela3.heading("categoria", text="Categoria")
 
-    tabela3.column("codigo", width=80, anchor="center")
-    tabela3.column("fornecedores", width=300, anchor="center")
+    tabela3.column("codigo", width=70, anchor="center")
+    tabela3.column("empresa", width=220, anchor="center")
+    tabela3.column("contato", width=150, anchor="center")
     tabela3.column("telefone", width=120, anchor="center")
+    tabela3.column("email", width=220, anchor="center")
+    tabela3.column("categoria", width=150, anchor="center")
 
-    tabela3.insert("", tk.END, values=("F001", "Auto Peças Brasil", "(11)99999-1111"))
-    tabela3.insert("", tk.END, values=("F002", "Pastilha de freio dianteira", "(21)98888-1111"))
+    arquivo = "cadastro_fornecedores.json"
+
+    if os.path.exists(arquivo):
+        try:
+            with open(arquivo, "r", encoding="utf-8") as f:
+                fornecedores = json.load(f)
+
+            for fornecedor in fornecedores:
+                tabela3.insert(
+                    "",
+                    tk.END,
+                    values=(
+                        fornecedor.get("codigo", ""),
+                        fornecedor.get("empresa", ""),
+                        fornecedor.get("contato", ""),
+                        fornecedor.get("telefone", ""),
+                        fornecedor.get("email", ""),
+                        fornecedor.get("categoria", "")
+                    )
+                )
+        except:
+            pass
 
     tabela3.pack(expand=True, fill="both", padx=20, pady=20)
 
@@ -219,6 +262,8 @@ def abrir():
         bg="#1E293B",
         fg="#E2E8F0"
     )
+
+
     titulo4.pack(pady=15)
 
     tabela4 = ttk.Treeview(
@@ -227,76 +272,81 @@ def abrir():
         show="headings"
     )
 
-    botao_aba4 = tk.Button(
-    aba4,
-    text="Cadastrar Cliente",
-    font=("Arial", 12),
-    fg="#1E293B",
-    bg="#E2E8F0",
-    activeforeground="#49628c",
-    activebackground="#f0f6fc",
-    relief="flat",
-    padx=20,
-    pady=10,
-    cursor="hand2",
-    command=abrir_cliente
-)
-    botao_aba4.pack(pady=20)
-
     tabela4.heading("codigo", text="Código")
-    tabela4.heading("cliente", text="Clientes")
+    tabela4.heading("cliente", text="Cliente")
     tabela4.heading("cpf", text="CPF")
 
-    tabela4.column("codigo", width=80, anchor="center")
-    tabela4.column("cliente", width=300, anchor="center")
-    tabela4.column("cpf", width=120, anchor="center")
+    tabela4.column("codigo", width=100, anchor="center")
+    tabela4.column("cliente", width=250, anchor="center")
+    tabela4.column("cpf", width=180, anchor="center")
 
-    tabela4.insert("", tk.END, values=("C001", "João Silva", "327.564.908-11"))
-    tabela4.insert("", tk.END, values=("C002", "Maria Souza", "123.667.432-69"))
+    arquivo = "cadastro_vendas.json"
+
+    if os.path.exists(arquivo):
+        try:
+            with open(arquivo, "r", encoding="utf-8") as f:
+                vendas = json.load(f)
+
+            for venda in vendas:
+                tabela5.insert(
+                    "",
+                    tk.END,
+                    values=(
+                        venda.get("codigo", ""),
+                        venda.get("cliente", ""),
+                        venda.get("cpf", "")
+                    )
+                )
+        except:
+            pass
 
     tabela4.pack(expand=True, fill="both", padx=20, pady=20)
 
     titulo5 = tk.Label(
-        aba5,
-        text="Vendas",
-        font=("Arial", 18, "bold"),
-        bg="#1E293B",
-        fg="#E2E8F0"
-    )
+    aba5,
+    text="Vendas",
+    font=("Arial", 18, "bold"),
+    bg="#1E293B",
+    fg="#E2E8F0"
+)
     titulo5.pack(pady=15)
 
     tabela5 = ttk.Treeview(
         aba5,
-        columns=("venda", "cliente", "valor"),
+        columns=("codigo", "cliente", "cpf", "valor"),
         show="headings"
     )
 
-    botao_aba5 = tk.Button(
-    aba5,
-    text="Cadastrar Nova Venda",
-    font=("Arial", 12),
-    fg="#1E293B",
-    bg="#E2E8F0",
-    activeforeground="#49628c",
-    activebackground="#f0f6fc",
-    relief="flat",
-    padx=20,
-    pady=10,
-    cursor="hand2",
-    command=abrir_nova_venda
-)
-    botao_aba5.pack(pady=20)
+    tabela5.heading("codigo", text="Código")
+    tabela5.heading("cliente", text="Cliente")
+    tabela5.heading("cpf", text="CPF")
+    tabela5.heading("valor", text="Valor (R$)")
 
-    tabela5.heading("venda", text="Vendas")
-    tabela5.heading("cliente", text="Clientes")
-    tabela5.heading("valor", text="Valor(R$)")
-
-    tabela5.column("venda", width=80, anchor="center")
-    tabela5.column("cliente", width=300, anchor="center")
+    tabela5.column("codigo", width=100, anchor="center")
+    tabela5.column("cliente", width=250, anchor="center")
+    tabela5.column("cpf", width=180, anchor="center")
     tabela5.column("valor", width=120, anchor="center")
 
-    tabela5.insert("", tk.END, values=("V001", "João Silva", "199.90"))
-    tabela5.insert("", tk.END, values=("V002", "Maria Souza", "359.80"))
+    arquivo = "cadastro_vendas.json"
+
+    if os.path.exists(arquivo):
+        try:
+            with open(arquivo, "r", encoding="utf-8") as f:
+                vendas = json.load(f)
+
+            for venda in vendas:
+                tabela5.insert(
+                    "",
+                    tk.END,
+                    values=(
+                        venda.get("codigo", ""),
+                        venda.get("cliente", ""),
+                        venda.get("cpf", ""),
+                        venda.get("valor", "")
+                    )
+                )
+        except:
+            pass
 
     tabela5.pack(expand=True, fill="both", padx=20, pady=20)
 
