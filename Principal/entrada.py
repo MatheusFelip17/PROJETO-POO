@@ -16,7 +16,7 @@ def abrir_vendas():
 janela = tk.Tk()
 
 janela.title("Mecânica do Zé")
-janela.geometry("680x680")
+janela.geometry("1000x1000")
 janela.minsize(820, 560)
 janela.configure(bg="#1E293B")
 
@@ -45,6 +45,8 @@ botao = tk.Button(
 )
 botao.pack(pady=20)
 
+janela.mainloop()
+
 botao1 = tk.Button(
     janela,
     text="Nova Venda",
@@ -61,4 +63,3 @@ botao1 = tk.Button(
 )
 botao1.pack(pady=20)
 
-janela.mainloop()

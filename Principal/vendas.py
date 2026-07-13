@@ -204,7 +204,7 @@ def abrir_nova_venda():
     janela = tk.Tk()
 
     janela.title("Cadastro de Venda")
-    janela.geometry("650x700")
+    janela.geometry("1000x1000")
     janela.configure(bg="#1E293B")
 
     titulo = tk.Label(
